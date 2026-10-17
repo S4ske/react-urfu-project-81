@@ -1,7 +1,9 @@
 import Tag from './Tag.js';
 import type { Field, Form, InputField, SubmitField } from './types.js';
 
-const renderLabel = ({ name, label }: InputField): Tag => new Tag('label', { for: name }, label);
+const renderLabel = ({ name, label, labelAttributes }: InputField): Tag => (
+  new Tag('label', { for: name, ...labelAttributes }, label)
+);
 
 const renderInput = (field: InputField): string => {
   const { name, value, attributes } = field;
@@ -35,5 +37,5 @@ const renderField = (field: Field): string => {
 export default ({ action, method, fields }: Form): string => {
   const body = fields.map(renderField).join('');
 
-  return new Tag('form', { action, method }, body).toString();
+  return new Tag('form', { method, action }, body).toString();
 };

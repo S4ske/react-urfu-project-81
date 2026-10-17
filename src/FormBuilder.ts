@@ -4,8 +4,11 @@ export type { Field, Form, InputField, SubmitField } from './types.js';
 
 export type Template = object;
 
-export type InputOptions = Attributes & {
+export type InputOptions = {
   as?: 'input' | 'textarea';
+  label?: string;
+  labelHtml?: Attributes;
+  [attribute: string]: string | number | Attributes | undefined;
 };
 
 const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
@@ -28,13 +31,14 @@ export default class FormBuilder {
       throw new Error(`Field '${name}' does not exist in the template.`);
     }
 
-    const { as = 'input', ...attributes } = options;
+    const { as = 'input', label = capitalize(name), labelHtml = {}, ...attributes } = options;
     const field: Field = {
       type: as,
       name,
-      label: capitalize(name),
+      label,
+      labelAttributes: labelHtml,
       value: String(this.template[name] ?? ''),
-      attributes,
+      attributes: attributes as Attributes,
     };
 
     this.items = [...this.items, field];

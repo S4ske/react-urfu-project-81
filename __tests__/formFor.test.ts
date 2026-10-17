@@ -18,17 +18,17 @@ describe('HexletCode.formFor', () => {
 
   test('empty form with defaults', () => {
     const form = HexletCode.formFor(template, {}, () => {});
-    expect(form).toBe('<form action="#" method="post"></form>');
+    expect(form).toBe('<form method="post" action="#"></form>');
   });
 
   test('form with url', () => {
     const form = HexletCode.formFor(template, { url: '/users' }, () => {});
-    expect(form).toBe('<form action="/users" method="post"></form>');
+    expect(form).toBe('<form method="post" action="/users"></form>');
   });
 
   test('form with method', () => {
     const form = HexletCode.formFor(template, { url: '/users', method: 'get' }, () => {});
-    expect(form).toBe('<form action="/users" method="get"></form>');
+    expect(form).toBe('<form method="get" action="/users"></form>');
   });
 
   test('input and textarea fields', () => {
@@ -61,7 +61,7 @@ describe('HexletCode.formFor', () => {
     const form = HexletCode.formFor({ name: null }, {}, (f) => {
       f.input('name');
     });
-    expect(form).toBe('<form action="#" method="post"><label for="name">Name</label><input name="name" type="text" value=""></form>');
+    expect(form).toBe('<form method="post" action="#"><label for="name">Name</label><input name="name" type="text" value=""></form>');
   });
 
   test('submit with default value', () => {
@@ -80,6 +80,14 @@ describe('HexletCode.formFor', () => {
       f.submit('Wow');
     });
     expect(form).toBe(readFixture('submit-custom.html'));
+  });
+
+  test('label text and attributes', () => {
+    const form = HexletCode.formFor(template, {}, (f) => {
+      f.input('name', { label: 'User', labelHtml: { class: 'form-label', id: 'name-label' } });
+      f.submit('Ok');
+    });
+    expect(form).toBe(readFixture('label-attributes.html'));
   });
 
   test('throws on unknown field type', () => {

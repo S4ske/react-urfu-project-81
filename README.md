@@ -48,7 +48,7 @@ const form = HexletCode.formFor(template, { url: '/users' }, (f) => {
 });
 
 console.log(form);
-// <form action="/users" method="post">
+// <form method="post" action="/users">
 //   <label for="name">Name</label>
 //   <input name="name" type="text" value="rob" class="user-input">
 //   <label for="job">Job</label>
@@ -58,6 +58,18 @@ console.log(form);
 ```
 
 Без аргумента `submit()` создаёт кнопку с текстом `Save`.
+
+Текст и атрибуты метки задаются опциями `label` и `labelHtml`:
+
+```ts
+HexletCode.formFor(template, {}, (f) => {
+  f.input('name', { label: 'User', labelHtml: { class: 'form-label' } });
+});
+// <form method="post" action="#">
+//   <label for="name" class="form-label">User</label>
+//   <input name="name" type="text" value="rob">
+// </form>
+```
 
 Если поля нет в шаблоне, будет выброшена ошибка:
 

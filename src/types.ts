@@ -4,6 +4,7 @@ export type InputField = {
   type: 'input' | 'textarea';
   name: string;
   label: string;
+  labelAttributes: Attributes;
   value: string;
   attributes: Attributes;
 };
