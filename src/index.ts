@@ -1,8 +1,10 @@
 import FormBuilder, { type Template } from './FormBuilder.js';
-import Tag from './Tag.js';
+import renderHtml from './renderHtml.js';
 
 export { default as Tag } from './Tag.js';
-export type { default as FormBuilder, InputOptions, Template } from './FormBuilder.js';
+export type {
+  default as FormBuilder, Field, Form, InputField, InputOptions, SubmitField, Template,
+} from './FormBuilder.js';
 
 export type FormOptions = {
   url?: string;
@@ -15,6 +17,6 @@ export default class HexletCode {
     const builder = new FormBuilder(template);
     callback(builder);
 
-    return new Tag('form', { action: url, method }, builder.toString()).toString();
+    return renderHtml({ action: url, method, fields: builder.fields });
   }
 }

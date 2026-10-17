@@ -33,14 +33,20 @@ const template = { name: 'rob', job: 'hexlet', gender: 'm' };
 const form = HexletCode.formFor(template, { url: '/users' }, (f) => {
   f.input('name', { class: 'user-input' });
   f.input('job', { as: 'textarea', rows: 50 });
+  f.submit('Wow');
 });
 
 console.log(form);
 // <form action="/users" method="post">
+//   <label for="name">Name</label>
 //   <input name="name" type="text" value="rob" class="user-input">
+//   <label for="job">Job</label>
 //   <textarea cols="20" rows="50" name="job">hexlet</textarea>
+//   <input type="submit" value="Wow">
 // </form>
 ```
+
+Без аргумента `submit()` создаёт кнопку с текстом `Save`.
 
 Если поля нет в шаблоне, будет выброшена ошибка:
 

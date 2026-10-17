@@ -61,7 +61,25 @@ describe('HexletCode.formFor', () => {
     const form = HexletCode.formFor({ name: null }, {}, (f) => {
       f.input('name');
     });
-    expect(form).toBe('<form action="#" method="post"><input name="name" type="text" value=""></form>');
+    expect(form).toBe('<form action="#" method="post"><label for="name">Name</label><input name="name" type="text" value=""></form>');
+  });
+
+  test('submit with default value', () => {
+    const form = HexletCode.formFor(template, { method: 'post' }, (f) => {
+      f.input('name');
+      f.input('job', { as: 'textarea' });
+      f.submit();
+    });
+    expect(form).toBe(readFixture('submit.html'));
+  });
+
+  test('submit with custom value', () => {
+    const form = HexletCode.formFor(template, { method: 'post' }, (f) => {
+      f.input('name');
+      f.input('job', { as: 'textarea' });
+      f.submit('Wow');
+    });
+    expect(form).toBe(readFixture('submit-custom.html'));
   });
 
   test('throws on missing field', () => {
