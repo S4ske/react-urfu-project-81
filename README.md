@@ -9,7 +9,7 @@
 
 ## Стек
 
-- JavaScript
+- TypeScript
 
 ## Установка
 
