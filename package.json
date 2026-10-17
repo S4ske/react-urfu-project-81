@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "lint": "tsc --noEmit"
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "test-coverage": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -28,7 +32,14 @@
     "dist"
   ],
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "^26.6.5",
-    "typescript": "^7.0.2"
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "typescript": "~6.0",
+    "typescript-eslint": "^8.71.2",
+    "vitest": "^5.0.5"
   }
 }
