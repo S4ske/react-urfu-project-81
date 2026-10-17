@@ -1,4 +1,6 @@
-import type { Attributes } from './Tag.js';
+import type { Attributes, Field } from './types.js';
+
+export type { Field, Form, InputField, SubmitField } from './types.js';
 
 export type Template = object;
 
@@ -6,31 +8,10 @@ export type InputOptions = Attributes & {
   as?: 'input' | 'textarea';
 };
 
-export type InputField = {
-  type: 'input' | 'textarea';
-  name: string;
-  label: string;
-  value: string;
-  attributes: Attributes;
-};
-
-export type SubmitField = {
-  type: 'submit';
-  value: string;
-};
-
-export type Field = InputField | SubmitField;
-
-export type Form = {
-  action: string;
-  method: string;
-  fields: readonly Field[];
-};
-
 const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
 
 export default class FormBuilder {
-  private readonly items: Field[] = [];
+  private items: readonly Field[] = [];
 
   private readonly template: Record<string, unknown>;
 
@@ -48,17 +29,18 @@ export default class FormBuilder {
     }
 
     const { as = 'input', ...attributes } = options;
-
-    this.items.push({
+    const field: Field = {
       type: as,
       name,
       label: capitalize(name),
       value: String(this.template[name] ?? ''),
       attributes,
-    });
+    };
+
+    this.items = [...this.items, field];
   }
 
   submit(value = 'Save'): void {
-    this.items.push({ type: 'submit', value });
+    this.items = [...this.items, { type: 'submit', value }];
   }
 }

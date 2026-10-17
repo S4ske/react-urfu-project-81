@@ -1,22 +1,35 @@
-import type { Field, Form, InputField } from './FormBuilder.js';
 import Tag from './Tag.js';
+import type { Field, Form, InputField, SubmitField } from './types.js';
 
-const renderControl = ({ type, name, value, attributes }: InputField): Tag => {
-  if (type === 'textarea') {
-    return new Tag('textarea', { cols: 20, rows: 40, name, ...attributes }, value);
-  }
+const renderLabel = ({ name, label }: InputField): Tag => new Tag('label', { for: name }, label);
 
-  return new Tag('input', { name, type: 'text', value, ...attributes });
+const renderInput = (field: InputField): string => {
+  const { name, value, attributes } = field;
+  const input = new Tag('input', { name, type: 'text', value, ...attributes });
+
+  return `${renderLabel(field)}${input}`;
 };
 
+const renderTextarea = (field: InputField): string => {
+  const { name, value, attributes } = field;
+  const textarea = new Tag('textarea', { cols: 20, rows: 40, name, ...attributes }, value);
+
+  return `${renderLabel(field)}${textarea}`;
+};
+
+const renderSubmit = ({ value }: SubmitField): string => new Tag('input', { type: 'submit', value }).toString();
+
 const renderField = (field: Field): string => {
-  if (field.type === 'submit') {
-    return new Tag('input', { type: 'submit', value: field.value }).toString();
+  switch (field.type) {
+    case 'input':
+      return renderInput(field);
+    case 'textarea':
+      return renderTextarea(field);
+    case 'submit':
+      return renderSubmit(field);
+    default:
+      throw new Error(`Unknown field type: '${(field as { type: string }).type}'.`);
   }
-
-  const label = new Tag('label', { for: field.name }, field.label);
-
-  return `${label}${renderControl(field)}`;
 };
 
 export default ({ action, method, fields }: Form): string => {

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, test } from 'vitest';
-import HexletCode from '../src/index.js';
+import HexletCode, { type InputOptions } from '../src/index.js';
 
 const readFixture = (name: string): string => readFileSync(
   new URL(`../__fixtures__/${name}`, import.meta.url),
@@ -80,6 +80,12 @@ describe('HexletCode.formFor', () => {
       f.submit('Wow');
     });
     expect(form).toBe(readFixture('submit-custom.html'));
+  });
+
+  test('throws on unknown field type', () => {
+    expect(() => HexletCode.formFor(template, {}, (f) => {
+      f.input('name', { as: 'select' } as unknown as InputOptions);
+    })).toThrow('Unknown field type: \'select\'.');
   });
 
   test('throws on missing field', () => {

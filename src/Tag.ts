@@ -1,4 +1,6 @@
-export type Attributes = Record<string, string | number>;
+import type { Attributes } from './types.js';
+
+export type { Attributes } from './types.js';
 
 const singleTags = new Set([
   'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr',

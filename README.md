@@ -16,11 +16,22 @@
 
 ## Установка
 
-<!-- Опишите установку: клонирование, зависимости, переменные окружения -->
+Проект проверяется в CI на Node.js 24.
 
 ```bash
 git clone https://github.com/S4ske/react-urfu-project-81.git
 cd react-urfu-project-81
+make install
+make build
+```
+
+Проверки:
+
+```bash
+make lint
+make typecheck
+make test
+make test-coverage
 ```
 
 ## Использование
